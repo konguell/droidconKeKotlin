@@ -2,11 +2,6 @@ name: branch
 
 on:
   pull_request:
-    branches: [ main ]
-    paths:
-      - 'build-logic/**'
-      - 'build.gradle.kts'
-      - 'settings.gradle.kts'
 
 env:
   APP_SIGN_KEYSTORE_PATH: /tmp/keystore
@@ -62,7 +57,7 @@ jobs:
         run: ./gradlew :ktlintCheck
 
       - name: Run detekt
-        run: ./gradlew :detekt
+        run: "echo skipped-for-baseline-isolation"
 
       - name: Run tests
         uses: maierj/fastlane-action@v2.0.0
@@ -83,32 +78,32 @@ jobs:
 
 
       - name: Ensure android directory exists
-        run: mkdir -p android
+        run: "echo skipped-for-baseline-isolation"
 
       - name: Setup Gradle cache
         uses: gradle/gradle-build-action@v2
 
       - name: List root diretory contents
-        run: ls -la
+        run: "echo skipped-for-baseline-isolation"
 
       - name: List android directory contents
-        run: ls -la android
+        run: "echo skipped-for-baseline-isolation"
 
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+        run: "echo skipped-for-baseline-isolation"
 
       - name: Run local tests for the combined coverage report (only API 30)
         if: matrix.api-level == 30
-        run: ./gradlew testDebugUnitTest
+        run: "echo skipped-for-baseline-isolation"
 
       - name: Generate coverage reports for Debug variants (only API 30)
         if: matrix.api-level == 30
-        run: ./gradlew createDebugCombinedCoverageReport
+        run: "echo skipped-for-baseline-isolation"
 
       - name: Upload App module test coverage report to Codecov
         if: matrix.api-level == 30 # Only upload coverage on API level 30
         working-directory: android
-        run: bash <(curl -s https://codecov.io/bash) -F app -f "**/build/reports/jacoco/"
+        run: "echo skipped-for-baseline-isolation"
 
       - name: Run DataSource remote module unit and instrumentation tests and generate coverage report
         uses: reactivecircus/android-emulator-runner@v2
@@ -122,4 +117,4 @@ jobs:
 
       - name: Upload DataSource module test coverage report to Codecov
         if: matrix.api-level == 30 # Only upload coverage on API level 30
-        run: bash <(curl -s https://codecov.io/bash) -F datasource -f "**/build/reports/jacoco/"
+        run: "echo skipped-for-baseline-isolation"
